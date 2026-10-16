@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muhammad Aufaditya Adinata — Backend Developer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:  '#F8F4E1',
+            tan:    '#AF8F6F',
+            brown:  '#74512D',
+            dark:   '#543310',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #F8F4E1; }
+    ::-webkit-scrollbar-thumb { background: #AF8F6F; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #74512D; }
+
+    /* Fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Nav link underline */
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #74512D;
+      transition: width 0.25s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* Skill tag */
+    .skill-tag {
+      display: inline-block;
+      background: #F8F4E1;
+      border: 1px solid #AF8F6F;
+      color: #543310;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2px 10px;
+      border-radius: 4px;
+      margin: 3px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .skill-tag:hover {
+      background: #74512D;
+      color: #F8F4E1;
+      border-color: #74512D;
+    }
+
+    /* Timeline dot */
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      background: #74512D;
+      border: 2px solid #AF8F6F;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .timeline-line {
+      width: 2px;
+      background: linear-gradient(to bottom, #AF8F6F, transparent);
+      flex-shrink: 0;
+      margin-left: 5px;
+    }
+
+    /* Section divider */
+    .section-divider {
+      height: 2px;
+      background: linear-gradient(to right, #74512D, #AF8F6F, transparent);
+      margin-bottom: 2rem;
+    }
+
+    /* Mobile nav */
+    #mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    #mobile-menu.open {
+      max-height: 300px;
+    }
+  </style>
+</head>
+<body class="bg-cream text-dark font-sans antialiased">
+
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-cream/90 backdrop-blur border-b border-tan/30">
+    <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+      <span class="font-mono text-sm font-medium text-brown tracking-wide">aufa.dev</span>
+      <!-- Desktop -->
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium text-dark">
+        <a href="#about"      class="nav-link hover:text-brown transition-colors">About</a>
+        <a href="#experience" class="nav-link hover:text-brown transition-colors">Experience</a>
+        <a href="#skills"     class="nav-link hover:text-brown transition-colors">Skills</a>
+        <a href="#education"  class="nav-link hover:text-brown transition-colors">Education</a>
+        <a href="#contact"    class="nav-link hover:text-brown transition-colors">Contact</a>
+      </div>
+      <!-- Hamburger -->
+      <button id="nav-toggle" class="sm:hidden p-1 text-dark" aria-label="Toggle menu">
+        <svg id="icon-open"  class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="sm:hidden bg-cream border-t border-tan/30">
+      <div class="flex flex-col px-6 py-3 gap-3 text-sm font-medium">
+        <a href="#about"      class="mobile-nav-link hover:text-brown transition-colors py-1">About</a>
+        <a href="#experience" class="mobile-nav-link hover:text-brown transition-colors py-1">Experience</a>
+        <a href="#skills"     class="mobile-nav-link hover:text-brown transition-colors py-1">Skills</a>
+        <a href="#education"  class="mobile-nav-link hover:text-brown transition-colors py-1">Education</a>
+        <a href="#contact"    class="mobile-nav-link hover:text-brown transition-colors py-1">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="about" class="min-h-screen flex flex-col justify-center pt-16 px-6">
+    <div class="max-w-4xl mx-auto w-full">
+      <div class="fade-in">
+        <p class="font-mono text-sm text-tan mb-3">Hello, I'm</p>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-dark leading-tight mb-2">
+          Muhammad<br />
+          <span class="text-brown">Aufaditya</span> Adinata
+        </h1>
+        <p class="text-lg sm:text-xl text-tan font-medium mt-4 mb-6">Backend Developer</p>
+        <p class="max-w-2xl text-dark/80 leading-relaxed text-base sm:text-[15px]">
+          Backend developer with 1+ year of professional experience building and maintaining
+          production-grade REST APIs across manufacturing, logistics, ERP, and IoT domains.
+          Proficient in TypeScript/Bun, Node.js, PHP/Laravel, and Golang with exposure to C#/.NET.
+          Experienced in RBAC, real-time data pipelines (MQTT/SSE/InfluxDB), automated report
+          generation, and microservice architectures.
+        </p>
+        <div class="flex flex-wrap gap-3 mt-8">
+          <a href="#experience"
+             class="px-5 py-2.5 bg-dark text-cream text-sm font-medium rounded hover:bg-brown transition-colors">
+            See my work
+          </a>
+          <a href="#contact"
+             class="px-5 py-2.5 border border-dark text-dark text-sm font-medium rounded hover:bg-dark hover:text-cream transition-colors">
+            Get in touch
+          </a>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-1 text-tan/60">
+        <span class="text-xs font-mono">scroll</span>
+        <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M19 9l-7 7-7-7"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="fade-in">
+        <h2 class="text-2xl font-bold text-dark mb-1">Experience</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="space-y-0">
+
+        <!-- RAGDALION -->
+        <div class="fade-in flex gap-5">
+          <div class="flex flex-col items-center">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line flex-1 mt-1"></div>
+          </div>
+          <div class="pb-12 flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
+              <div>
+                <h3 class="text-lg font-bold text-dark">Ragdalion</h3>
+                <p class="text-sm text-tan font-medium">Backend Developer</p>
+              </div>
+              <span class="font-mono text-xs text-tan whitespace-nowrap">Nov 2024 – Feb 2025 · May 2025 – Present</span>
+            </div>
+            <ul class="space-y-2 mb-4">
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Architected an IoT valve circulation and temperature monitoring backend (Bun, Express 5, InversifyJS) ingesting multi-device telemetry via MQTT with 5s batch flushing, real-time SSE streaming, and zero redundant DB reads.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Engineered an automated multi-shift (Shift 1/2/3) daily, monthly, and annual Excel reporting engine (ExcelJS), telemetry watchdog auto-recovery, and bundled the application into a standalone executable with embedded Swagger docs.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Built and maintained REST APIs across multiple projects spanning manufacturing QC, maintenance management, inventory, power monitoring, ERP, and HR domains.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Implemented enterprise RBAC, JWT authentication with session activity tracking, login rate limiting, and audit trail across multiple services.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Developed real-time energy monitoring backend consuming MQTT streams and persisting time-series data to InfluxDB; built scheduled report generation (kWh, kVArh, cost summary) exported to Excel.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Contributed to a microservices-based digital platform: implemented audit workflows, budget management, honor calculation, pagination, cloud file uploads, and background job processing with BullMQ.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Contributed to a C#/.NET IoT production monitoring backend: MQTT background service, WebSocket push notifications, and exponential-backoff reconnection logic.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Built maintenance management backends covering preventive/corrective checklists, work orders, sparepart booking, and PDF/Excel report exports.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Developed SOAP/XML integration with an ERP system for MRP inquiry and plan order synchronization.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Implemented Redis/in-memory caching, database indexing, and query optimization to improve API response times across high-load endpoints.
+              </li>
+            </ul>
+            <div class="flex flex-wrap">
+              <span class="skill-tag">TypeScript</span><span class="skill-tag">Bun</span><span class="skill-tag">Node.js</span>
+              <span class="skill-tag">Express</span><span class="skill-tag">PHP</span><span class="skill-tag">Laravel</span>
+              <span class="skill-tag">C#</span><span class="skill-tag">.NET</span><span class="skill-tag">PostgreSQL</span>
+              <span class="skill-tag">MySQL</span><span class="skill-tag">Redis</span><span class="skill-tag">InfluxDB</span>
+              <span class="skill-tag">MQTT</span><span class="skill-tag">BullMQ</span><span class="skill-tag">Docker</span>
+              <span class="skill-tag">JWT</span><span class="skill-tag">SSE</span><span class="skill-tag">Socket.IO</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- KOMERCE.ID -->
+        <div class="fade-in flex gap-5">
+          <div class="flex flex-col items-center">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line flex-1 mt-1"></div>
+          </div>
+          <div class="pb-12 flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
+              <div>
+                <h3 class="text-lg font-bold text-dark">Komerce.id</h3>
+                <p class="text-sm text-tan font-medium">Backend Developer</p>
+              </div>
+              <span class="font-mono text-xs text-tan whitespace-nowrap">Jun 2024 – Aug 2024</span>
+            </div>
+            <ul class="space-y-2 mb-4">
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Engineered scalable RESTful API endpoints across distributed microservices (Laravel, Golang) powering e-commerce order management and logistics operations with PostgreSQL.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Investigated and resolved critical production defects in inter-service communication, improving transactional data integrity and service uptime.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Collaborated with frontend and QA engineers in bi-weekly Agile sprints to define API schemas, conduct integration tests, and ensure smooth feature releases.
+              </li>
+            </ul>
+            <div class="flex flex-wrap">
+              <span class="skill-tag">Laravel</span><span class="skill-tag">Golang</span>
+              <span class="skill-tag">PostgreSQL</span><span class="skill-tag">Docker</span><span class="skill-tag">Git</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- UNS Intern -->
+        <div class="fade-in flex gap-5">
+          <div class="flex flex-col items-center">
+            <div class="timeline-dot"></div>
+          </div>
+          <div class="pb-4 flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
+              <div>
+                <h3 class="text-lg font-bold text-dark">Sebelas Maret University</h3>
+                <p class="text-sm text-tan font-medium">Software Engineer Intern — Fullstack</p>
+              </div>
+              <span class="font-mono text-xs text-tan whitespace-nowrap">Jun 2021 – Nov 2021</span>
+            </div>
+            <ul class="space-y-2 mb-4">
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Built frontend components and backend API endpoints for an ERP product as part of a 25-person cross-team project.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Participated in SCRUM ceremonies; reviewed and provided feedback on database schema design.
+              </li>
+              <li class="flex gap-2 text-sm text-dark/80 leading-relaxed">
+                <span class="text-brown mt-1 flex-shrink-0">▸</span>
+                Wrote automated tests for the frontend application to support QA workflows.
+              </li>
+            </ul>
+            <div class="flex flex-wrap">
+              <span class="skill-tag">Golang</span><span class="skill-tag">PostgreSQL</span>
+              <span class="skill-tag">GORM</span><span class="skill-tag">JavaScript</span><span class="skill-tag">React</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="py-20 px-6 bg-dark/[0.03]">
+    <div class="max-w-4xl mx-auto">
+      <div class="fade-in">
+        <h2 class="text-2xl font-bold text-dark mb-1">Technical Skills</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-8">
+
+        <div class="fade-in">
+          <h3 class="text-xs font-mono font-medium text-tan uppercase tracking-widest mb-3">Languages</h3>
+          <div>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">PHP</span>
+            <span class="skill-tag">Golang</span>
+            <span class="skill-tag">C#</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">SQL</span>
+          </div>
+        </div>
+
+        <div class="fade-in">
+          <h3 class="text-xs font-mono font-medium text-tan uppercase tracking-widest mb-3">Frameworks & Runtimes</h3>
+          <div>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Express</span>
+            <span class="skill-tag">Bun</span>
+            <span class="skill-tag">Laravel</span>
+            <span class="skill-tag">.NET</span>
+            <span class="skill-tag">React</span>
+          </div>
+        </div>
+
+        <div class="fade-in">
+          <h3 class="text-xs font-mono font-medium text-tan uppercase tracking-widest mb-3">Databases & Storage</h3>
+          <div>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">InfluxDB</span>
+            <span class="skill-tag">Redis</span>
+          </div>
+        </div>
+
+        <div class="fade-in">
+          <h3 class="text-xs font-mono font-medium text-tan uppercase tracking-widest mb-3">Tools & Infrastructure</h3>
+          <div>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">MQTT</span>
+            <span class="skill-tag">WebSocket</span>
+            <span class="skill-tag">SSE</span>
+            <span class="skill-tag">BullMQ</span>
+            <span class="skill-tag">Socket.IO</span>
+            <span class="skill-tag">Sequelize</span>
+            <span class="skill-tag">GORM</span>
+            <span class="skill-tag">esbuild</span>
+            <span class="skill-tag">ExcelJS</span>
+          </div>
+        </div>
+
+        <div class="fade-in sm:col-span-2">
+          <h3 class="text-xs font-mono font-medium text-tan uppercase tracking-widest mb-3">Practices</h3>
+          <div>
+            <span class="skill-tag">RBAC</span>
+            <span class="skill-tag">JWT</span>
+            <span class="skill-tag">Rate Limiting</span>
+            <span class="skill-tag">DDD</span>
+            <span class="skill-tag">IoC / Dependency Injection</span>
+            <span class="skill-tag">Microservices</span>
+            <span class="skill-tag">REST APIs</span>
+            <span class="skill-tag">Agile / SCRUM</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="fade-in">
+        <h2 class="text-2xl font-bold text-dark mb-1">Education</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="fade-in flex gap-5">
+        <div class="flex flex-col items-center">
+          <div class="timeline-dot"></div>
+        </div>
+        <div class="flex-1">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
+            <div>
+              <h3 class="text-lg font-bold text-dark">Sebelas Maret University</h3>
+              <p class="text-sm text-tan">Surakarta, Indonesia</p>
+            </div>
+            <span class="font-mono text-xs text-tan whitespace-nowrap">Jul 2019 – Sep 2023</span>
+          </div>
+          <p class="text-sm text-dark/80 mb-1">Bachelor of Computer Science</p>
+          <p class="font-mono text-sm font-medium text-brown mb-3">GPA: 3.55 / 4.0</p>
+          <p class="text-sm text-dark/70">
+            Relevant Coursework: Software Engineering, Web Programming, Database Systems, Data Structures
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-20 px-6 bg-dark">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="fade-in">
+        <p class="font-mono text-xs text-tan/60 uppercase tracking-widest mb-3">Let's connect</p>
+        <h2 class="text-3xl sm:text-4xl font-bold text-cream mb-4">Get In Touch</h2>
+        <p class="text-tan max-w-lg mx-auto leading-relaxed text-sm mb-10">
+          I'm open to new opportunities, collaborations, and interesting backend engineering challenges.
+          Feel free to reach out.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+          <a href="mailto:m.aufaditya@gmail.com"
+             class="flex items-center gap-2 px-6 py-3 bg-brown text-cream text-sm font-medium rounded hover:bg-tan transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            m.aufaditya@gmail.com
+          </a>
+          <a href="https://github.com/adafatya" target="_blank" rel="noopener noreferrer"
+             class="flex items-center gap-2 px-6 py-3 border border-tan/40 text-cream text-sm font-medium rounded hover:border-tan hover:bg-cream/5 transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            github.com/adafatya
+          </a>
+        </div>
+
+        <div class="flex items-center justify-center gap-2 text-tan/50 text-xs font-mono">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <circle cx="12" cy="11" r="3"/>
+          </svg>
+          Surakarta, Indonesia
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-5 px-6 bg-dark border-t border-cream/5 text-center">
+    <p class="font-mono text-xs text-tan/40">
+      &copy; 2026 Muhammad Aufaditya Adinata
+    </p>
+  </footer>
+
+  <script>
+    // Intersection Observer — fade in on scroll
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Trigger hero immediately
+    document.querySelectorAll('#about .fade-in').forEach(el => el.classList.add('visible'));
+
+    // Mobile nav toggle
+    const toggle = document.getElementById('nav-toggle');
+    const menu   = document.getElementById('mobile-menu');
+    const iconOpen  = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden', isOpen);
+      iconClose.classList.toggle('hidden', !isOpen);
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      });
+    });
+
+    // Active nav link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+
+    const navObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const id = e.target.getAttribute('id');
+            navLinks.forEach(link => {
+              link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+            });
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    sections.forEach(s => navObserver.observe(s));
+  </script>
+</body>
+</html>
